@@ -22,15 +22,25 @@ export default class MathLogicRP extends Component {
     if(keyPressed.toLowerCase() === "enter"){
         let number = clearNum(display, operators);
         if(this.state.operatorSnapshot){
-            let resultNumber = doMath(number,this.state.prevNumber, this.state.operatorSnapshot);
+            let resultNumber = doMath(this.state.prevNumber, number, this.state.operatorSnapshot);
             this.setState({
                 result: resultNumber, operatorSnapshot: ""
             })
         } else {
             this.setState({result: number})
         }
-        
     }
+
+    if(keyPressed.toLowerCase() === "delete"){
+        this.setState({
+            currentNumber: 0,
+            prevNumber: 0,
+            result: 0,
+            operatorSnapshot: ""
+        })
+    }
+
+  
 
     if (operators.includes(keyPressed)) {
       //this will prevent set operator itself as prev number but set the prev num with operator at index 0

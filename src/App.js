@@ -9,25 +9,51 @@ import MathLogicRP from "./MathLogicRP";
 class App extends React.Component {
   state = {
     pressedKey: "",
+    clickedKey:"",
     displayVal: ""
   };
 
+
   componentDidMount() {
     window.addEventListener("keydown", this.handleCalcInput);
+   window.addEventListener("mousedown", this.handleCalcInput) 
+  }
+
+  componentWillUnmount(){
+    window.removeEventListener("keydown", this.handleCalcInput);
+    window.removeEventListener("mousedown", this.handleCalcInput);
+
   }
 
   handleCalcInput = event => {
     const inputAsString = event.key;
+    const {value} = event.target;
+
+    // on keyDown variant
     if (calcVals.includes(inputAsString)) {
       this.setState({ pressedKey: event.key });
-      this.setDisplayVal();
     }
+    // onclick variant
+    if(calcVals.includes(value)){
+      this.setState({ pressedKey: value });
+      
+    }
+    this.setDisplayVal();
   };
 
   setDisplayVal = () => {
     const { displayVal, pressedKey } = this.state;
     if (pressedKey === "Delete") {
       this.setState({ displayVal: "" });
+    }
+    if(pressedKey.toLowerCase() === "backspace"){
+        this.setState(prevState=>{
+          if(prevState.displayVal !== ""){
+           const newDisplay = prevState.displayVal.slice(0,-1);
+           return{displayVal: newDisplay};
+          }
+
+        })
     }
 
     if (manipulators.indexOf(pressedKey) === -1) {
@@ -48,7 +74,7 @@ class App extends React.Component {
   render() {
     console.log(this.state.pressedKey)
     return (
-      <div className="App">
+      <div className="App" style={{border: "1px solid black", maxWidth: 600, margin: "0 auto"}}>
         <MathLogicRP
           display={this.state.displayVal}
           keyPressed={this.state.pressedKey}
@@ -61,7 +87,9 @@ class App extends React.Component {
             <Button
               key={index}
               value={value}
-              onKeyDown={e => this.handleCalcInput(e)}
+              className={value === this.state.pressedKey? "active" : ""}
+              // onKeyDown={e => this.handleCalcInput(e)}
+              // onMouseDown={e => this.handleCalcInput(e)}
             >
               {value === "Backspace" ? <TiArrowBack /> : value}
             </Button>

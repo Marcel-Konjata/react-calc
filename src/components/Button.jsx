@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
+import { operators } from "../utils/calcVals";
 
 const Button = ({ children, ...restProps }) => {
   return <SexyBTN {...restProps}  >{children}</SexyBTN>;
@@ -28,14 +29,18 @@ const Flash = keyframes`
 
 const SexyBTN = styled.button`
   flex-basis: 30%;
-  background: rgba(158, 101, 35, 0.719);
+  /* background: rgba(158, 101, 35, 0.719) ; */
+
+    background: ${props=> operators.includes(props.value)  ?  "#61dafb" : "rgba(158, 101, 35, 0.719)"};
   color: whitesmoke;
   border: 1px solid black;
   margin: 1px;
   padding: 20px;
   font-size: 20px;
   &:focus {
-    animation: ${Flash} 0.3s ease-in-out;
+    animation: ${Flash} 0.2s ease-in-out;
     outline: none;
   }
+  &.active{ animation: ${Flash} 0.2s ease-in-out;
+    outline: none;}
 `;
