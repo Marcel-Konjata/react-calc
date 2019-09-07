@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { TiArrowBack } from "react-icons/ti";
 import "./App.css";
 import Button from "./components/Button";
-import { calcVals, manipulators, operators } from "./utils/calcVals";
+import { calcVals, manipulators } from "./utils/calcVals";
 import MathLogicRP from "./MathLogicRP";
 
 class App extends React.Component {
